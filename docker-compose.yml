@@ -1,0 +1,84 @@
+version: '3.7'
+
+services:
+  loadbalancer:
+    image: ${PROJECT_NAME:-localdev}-loadbalancer
+    build:
+      context: loadbalancer/
+    ports:
+      - "8080:80"
+    depends_on:
+      - users
+      - songs
+
+  database:
+    image: mongo:4.0.5
+    ports:
+      - "27017:27017"
+      - "28017:28017"
+    environment:
+      - MONGO_DATA_DIR=${MONGO_DATA_DIR:-/data/db}
+      - MONGO_LOG_DIR=${MONGO_LOG_DIR:-/dev/null}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME:-root}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD:-rootPass}
+      - USERS_DB=${USERS_DB:-localusers}
+      - USERS_DB_USER=${USERS_DB_USER:-dev}
+      - USERS_DB_PASSWORD=${USERS_DB_PASSWORD:-devPass}
+    volumes:
+      - database:/data/db
+      - ./mongodb:/docker-entrypoint-initdb.d
+    command: mongod --smallfiles --logpath=/dev/null
+
+  realtime:
+    image: ${PROJECT_NAME:-localdev}-realtime
+    build:
+      context: realtime/
+    environment:
+      - PORT=${REALTIME_PORT:-9000}
+      - PROJECT_NAME=${PROJECT_NAME:-localdev}
+      - SERVICE_NAME=realtime
+
+  webapp:
+    image: ${PROJECT_NAME:-localdev}-webapp
+    build:
+      context: webapp/
+    environment:
+      - PORT=${WEBAPP_PORT:-8080}
+      - PROJECT_NAME=${PROJECT_NAME:-localdev}
+      - SERVICE_NAME=webapp
+    depends_on:
+      - users
+      - songs
+      - realtime
+
+  songs:
+    image: ${PROJECT_NAME:-localdev}-songs
+    build:
+      context: songs/
+    environment:
+      - PORT=${SONGS_PORT:-9000}
+      - PROJECT_NAME=${PROJECT_NAME:-localdev}
+      - SERVICE_NAME=songs
+    depends_on:
+      - users
+
+  users:
+    image: ${PROJECT_NAME:-localdev}-users
+    build:
+      context: users/
+    environment:
+      - PORT=${USERS_PORT:-9000}
+      - PROJECT_NAME=${PROJECT_NAME:-localdev}
+      - SERVICE_NAME=users
+      - DATABASE_SCHEMA=mongodb
+      - DATABASE_USER=${USERS_DB_USER:-dev}
+      - DATABASE_PASSWORD=${USERS_DB_PASSWORD:-devPass}
+      - DATABASE_HOST=database
+      - DATABASE_PORT=27017
+      - DATABASE_NAME=${USERS_DB:-localusers}
+    depends_on:
+      - database
+
+volumes:
+  database:
+    driver: local

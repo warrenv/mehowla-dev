@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+echo '========================================'
+echo ' Cloning project repos...'
+echo '========================================'
+source $(dirname $0)/../config/repos
+
+for r in "${repos[@]}"
+do
+  paths=()
+  IFS=', ' read -r -a paths <<< "$r"
+
+  if [ -d "${paths[1]}" ]; then
+    echo "'${paths[1]}' already exists, skipping."
+  else
+    # git clone git@github.com:${paths[0]} ${paths[1]}
+    git clone ${paths[0]} ${paths[1]}
+  fi
+
+  echo
+done
+
+exit 0

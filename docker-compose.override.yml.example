@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  loadbalancer:
+    # Public access to all containers is thru here.
+    # Uncomment the 'ports' config of a service
+    # below to access it from the host machine.
+    # volumes:
+    #   - ./loadbalancer/conf.d:/etc/nginx/conf.d
+    # command: sleep infinity
+
+  realtime:
+    # uncomment to make available from host machine.
+    # otherwise, it is private to the container network.
+    # ports:
+    #   - "${REALTIME_PORT:-9002}:${REALTIME_PORT:-9000}"
+    # volumes:
+    #   - ./realtime:/usr/src/app
+    # command: sleep infinity
+
+  webapp:
+    # uncomment to make available from host machine.
+    # otherwise, it is private to the container network.
+    # ports:
+    #   - "8080:8080"
+    # volumes:
+    #   - ./webapp:/usr/src/app
+    # command: sleep infinity
+
+  songs:
+    # uncomment to make available from host machine.
+    # otherwise, it is private to the container network.
+    # ports:
+    #   - "9000:9000"
+    # volumes:
+    #   - ./songs:/usr/src/app
+    # command: sleep infinity
+
+  users:
+    # uncomment to make available from host machine.
+    # otherwise, it is private to the container network.
+    # ports:
+    #   - "9001:9000"
+    # volumes:
+    #   - ./users:/usr/src/app
+    # command: sleep infinity

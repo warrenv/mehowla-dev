@@ -1,0 +1,7 @@
+.envrc
+docker-compose.override.yml
+# Add all names from config/repos.
+webapp
+songs
+users
+realtime

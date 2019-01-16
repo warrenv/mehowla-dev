@@ -1,0 +1,6 @@
+repos=(
+  "git@github.com:warrenv/mehowla-realtime realtime"
+  "git@github.com:warrenv/mehowla-songs songs"
+  "git@github.com:warrenv/mehowla-users users"
+  "git@github.com:warrenv/mehowla-webapp webapp"
+)
