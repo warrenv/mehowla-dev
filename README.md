@@ -42,7 +42,9 @@ repos (the "children") cloned as sub-directories.
 
     - Open the [frontend](http://localhost:8080)
     - Click on a song to play it.
-    - Click on 'Dscover' to see realtime updates from other users.
+    - Click on 'Discover' and see the song you just played listed.
+    - Open another browser window and go to http://localhost:8080
+    - Click on a song to play and see the Discover window update in the first window.
 
 ### Troubleshooting Tips
 
