@@ -4,6 +4,11 @@ development using Docker.
 It consists of this repo (the "parent") and all application
 repos (the "children") cloned as sub-directories.
 
+- https://github.com:warrenv/mehowla-realtime
+- https://git@github.com:warrenv/mehowla-songs
+- https://git@github.com:warrenv/mehowla-users
+- https://git@github.com:warrenv/mehowla-webapp
+
 ## Requirements
 
 [Docker](https://docs.docker.com/install/) (with [docker-compose](https://docs.docker.com/compose/install/))
